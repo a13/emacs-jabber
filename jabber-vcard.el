@@ -180,7 +180,7 @@ The top node should be the `vCard' node."
       (when photo-tag
 	(let ((type (jabber-xml-path photo-tag '(TYPE "")))
 	      (binval (jabber-xml-path photo-tag '(BINVAL ""))))
-	  (when (and type binval)
+	  (when binval
 	    (push (list 'PHOTO type binval) result)))))
 
     result))
