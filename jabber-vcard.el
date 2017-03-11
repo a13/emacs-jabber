@@ -149,9 +149,9 @@ The top node should be the `vCard' node."
 					  VIDEO BBS MODEM ISDN PCS PREF))
 	      (when (jabber-xml-get-children tel possible-type)
 		(push possible-type types)))
-	    
+
 	    (push (cons types number) phone-numbers))))
-	
+
       (when phone-numbers
 	(push (cons 'TEL phone-numbers) result)))
 
@@ -169,7 +169,7 @@ The top node should be the `vCard' node."
 	    (unless (or (memq 'INTERNET types)
 			(memq 'X400 types))
 	      (push 'INTERNET types))
-	    
+
     (push (cons types userid) e-mails))))
 
       (when e-mails
@@ -195,8 +195,8 @@ The top node should be the `vCard' node."
       (setq jabber-vcard-photo nil))
      ;; Existing photo
      ((listp photo)
-      (setq jabber-vcard-photo 
-	    (jabber-avatar-from-base64-string 
+      (setq jabber-vcard-photo
+	    (jabber-avatar-from-base64-string
 	     (nth 1 photo) (nth 0 photo))))
      ;; New photo from file
      (t
@@ -249,7 +249,7 @@ The top node should be the `vCard' node."
 	      `((PHOTO ()
 		       (TYPE () ,(avatar-mime-type jabber-vcard-photo))
 		       (BINVAL () ,(avatar-base64-data jabber-vcard-photo)))))))
-		     
+
 (add-to-list 'jabber-jid-info-menu
 	     (cons "Request vcard" 'jabber-vcard-get))
 
@@ -352,19 +352,19 @@ The top node should be the `vCard' node."
 	(insert (jabber-propertize "E-mail addresses:\n"
 				   'face 'jabber-title-medium))
 	(dolist (email email-addresses)
-	  (insert (mapconcat (lambda (type) 
+	  (insert (mapconcat (lambda (type)
 			       (cdr (assq type jabber-vcard-email-types)))
 			     (car email)
 			     " "))
 	  (insert ": " (cdr email) "\n"))))
-	  
+
     (let ((phone-numbers (cdr (assq 'TEL parsed))))
       (when phone-numbers
 	(insert "\n")
 	(insert (jabber-propertize "Phone numbers:\n"
 				   'face 'jabber-title-medium))
 	(dolist (number phone-numbers)
-	  (insert (mapconcat (lambda (type) 
+	  (insert (mapconcat (lambda (type)
 			       (cdr (assq type jabber-vcard-phone-types)))
 			     (car number)
 			     " "))
@@ -377,7 +377,7 @@ The top node should be the `vCard' node."
 				   'face 'jabber-title-medium))
 	(dolist (address addresses)
 	  (insert (jabber-propertize
-		   (mapconcat (lambda (type) 
+		   (mapconcat (lambda (type)
 				(cdr (assq type jabber-vcard-address-types)))
 			      (car address)
 			      " ")
@@ -418,10 +418,10 @@ The top node should be the `vCard' node."
 	  (push (cons (car simple-field)
 		      (widget-create 'editable-field (or default-value "")))
 		jabber-widget-alist)))
-      
+
       (widget-insert "\n")
       (push (cons 'N
-		  (widget-create 
+		  (widget-create
 		   '(set :tag "Decomposited name"
 			 (cons :tag "Prefix" :format "%t: %v" (const :format "" PREFIX) (string :format "%v"))
 			 (cons :tag "Given name" :format "%t: %v" (const :format "" GIVEN) (string :format "%v"))
@@ -507,13 +507,13 @@ The top node should be the `vCard' node."
 	     (avatar (when photo
 		       (jabber-avatar-from-base64-string (nth 2 photo)
 							 (nth 1 photo)))))
-	(push (cons 
+	(push (cons
 	       'PHOTO
 	       (widget-create
 		`(radio-button-choice (const :tag "None" nil)
 				      ,@(when photo
-					  (list 
-					   `(const :tag 
+					  (list
+					   `(const :tag
 						   ,(concat
 						     "Existing: "
 						     (jabber-propertize " "
